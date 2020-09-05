@@ -21,6 +21,10 @@ ExportedObj/
 *.unityproj
 *.booproj
 
+
+# ===================================== #
+# JetBrains Rider generated #
+# ===================================== #
 *.idea
 
 # ============ #
