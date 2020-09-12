@@ -53,9 +53,7 @@ Shader"BaseTexture/NormalMapTangentSpace"{
             {
                 v2f o ;
                 o.pos = UnityObjectToClipPos(v.vertex);
-                //o.uv.xy = TRANSFORM_TEX(v.texcoord,_MainTex);
                 o.uv.xy = v.texcoord.xy * _MainTex_ST.xy + _MainTex_ST.zw; 
-                //o.uv.zw = TRANSFORM_TEX(v.texcoord,_BumpMap);
                 o.uv.zw = v.texcoord.xy * _BumpMap_ST.xy + _BumpMap_ST.zw; 
                 //TANGENT_SPACE_ROTATION
                 float3 binormal = cross(normalize(v.normal),normalize(v.tangent.xyz)) * v.tangent.w;
