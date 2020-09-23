@@ -1,5 +1,5 @@
 ﻿
-Shader"Transparent Effect/AlphaBlend"{
+Shader"Transparent Effect/AlphaBlendZWrite"{
     Properties{
         _Color ("Main Tint" , Color) = (1,1,1,1)
         _MainTex ("Main Tex" , 2D) = "white"{}

@@ -18,6 +18,7 @@ Shader"Transparent Effect/AlphaTest"{
             Tags{
                 "LightModle" = "ForwardBase"
             }
+//            Cull Off
             CGPROGRAM
             #pragma vertex vert 
             #pragma fragment frag
