@@ -44,15 +44,16 @@ Shader"BaseLight/BlinnPhone"
             {
                 fixed3 ambient = UNITY_LIGHTMODEL_AMBIENT.xyz;
                 
+				fixed3 worldNormal = normalize(i.worldNormal);
                 fixed3 worldLightDir = normalize(_WorldSpaceLightPos0.xyz);
-                fixed3 diffuse = _LightColor0.rgb * _Diffuse.rgb * saturate(dot(i.worldNormal,worldLightDir));
+                fixed3 diffuse = _LightColor0.rgb * _Diffuse.rgb * saturate(dot(worldNormal,worldLightDir));
                 
                 //blinn         C_Specular = (C_Light * M_Specular) * max (0, dot(n , h)) m_gloss
                 //高光反射模型    C_specular = (C_light * M_specular) * max (0, dot(v * r)) m_gloss
                 //fixed3 reflectDir = normalize(reflect(-worldLightDir,i.worldNormal));
                 fixed3 viewDir = normalize(_WorldSpaceCameraPos.xyz - i.worldPos.xyz);
                 fixed3 halfDir = normalize(worldLightDir + viewDir);
-                fixed3 specular = _LightColor0.rgb * _Specular.rgb * pow(saturate(mul(viewDir , halfDir)),_Gloss);
+                fixed3 specular = _LightColor0.rgb * _Specular.rgb * pow(saturate(mul(worldNormal , halfDir)),_Gloss);
                 
                 fixed3 color = ambient + diffuse + specular;
                 return fixed4(color,1);
