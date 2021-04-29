@@ -73,7 +73,6 @@ Shader"Advanced Light/ForwardRendering"{
             Blend One One
             
             CGPROGRAM
-            //#pragma multi_compile_fwdadd
 			#pragma multi_compile_fwdadd
             #pragma vertex vert 
             #pragma fragment frag
@@ -124,7 +123,10 @@ Shader"Advanced Light/ForwardRendering"{
                 #ifdef USING_DIRECTIONAL_LIGHT
                     fixed atten = 1.0;
                 #else
+                    // unity内部使用一张名为_LightTexture0的纹理来计算光源衰减，通常我们只关心_LightTexture0对角线上的纹理颜色值，如果我们对该光源使用了cookie，那么衰减查找纹理是_LightTextureB0
+                    // 为了对_LightTexture0纹理采样得到给定点到该光源的衰减值，我们首先需要得到该店在光源空间中的位置 unity_WorldToLight在5.x时代叫_LightMatrix0
                     float3 lightCoord = mul(unity_WorldToLight, float4(i.worldPos, 1)).xyz;
+                    // 没有使用距离采样是因为这种方法可以避免开方，然后用UNITY_ATTEN_CHANNEL宏来得到衰减纹理中衰减值所在的分量（即r）注：UNITY_ATTEN_CHANNEL = r
                     fixed atten = tex2D(_LightTexture0 , dot(lightCoord , lightCoord).rr).UNITY_ATTEN_CHANNEL;
                 #endif
                 
